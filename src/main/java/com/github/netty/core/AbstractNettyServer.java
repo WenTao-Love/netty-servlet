@@ -15,7 +15,6 @@ import io.netty.channel.unix.UnixChannelOption;
 import io.netty.util.concurrent.Future;
 import io.netty.util.internal.PlatformDependent;
 
-import java.io.Closeable;
 import java.net.InetSocketAddress;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -25,19 +24,19 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *
  * @author wangzihao
  */
-public abstract class AbstractNettyServer implements Runnable, Closeable {
+public abstract class AbstractNettyServer implements Runnable {
     private final boolean enableEpoll;
     protected LoggerX logger = LoggerFactoryX.getLogger(getClass());
-    private String name;
+    private final String name;
     private ServerSocketChannel serverChannel;
     private EventLoopGroup boss;
     private EventLoopGroup worker;
     private ServerBootstrap bootstrap;
-    private InetSocketAddress serverAddress;
+    private final InetSocketAddress serverAddress;
     private int ioThreadCount = 0;
     private int ioRatio = 100;
     private boolean running = false;
-    private AtomicBoolean initFlag = new AtomicBoolean(false);
+    private final AtomicBoolean initFlag = new AtomicBoolean(false);
     private ChannelFuture bootstrapFuture;
     private Throwable bootstrapThrowable;
 
@@ -197,8 +196,7 @@ public abstract class AbstractNettyServer implements Runnable, Closeable {
         });
     }
 
-    @Override
-    public void close() {
+    public void shutdown() {
         if (serverChannel != null) {
             stop();
         }
