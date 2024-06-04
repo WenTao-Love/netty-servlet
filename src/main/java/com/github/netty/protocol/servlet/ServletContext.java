@@ -1,7 +1,10 @@
 package com.github.netty.protocol.servlet;
 
 import com.github.netty.Version;
-import com.github.netty.core.util.*;
+import com.github.netty.core.util.LoggerFactoryX;
+import com.github.netty.core.util.LoggerX;
+import com.github.netty.core.util.ResourceManager;
+import com.github.netty.core.util.SystemPropertyUtil;
 import com.github.netty.protocol.servlet.util.FilterMapper;
 import com.github.netty.protocol.servlet.util.HttpConstants;
 import com.github.netty.protocol.servlet.util.MimeMappingsX;
@@ -200,8 +203,7 @@ public class ServletContext implements javax.servlet.ServletContext {
     }
 
     public void setDocBase(String docBase) {
-        String workspace = '/' + (serverAddress == null || HostUtil.isLocalhost(serverAddress.getHostName()) ? "localhost" : serverAddress.getHostName());
-        setDocBase(docBase, workspace);
+        setDocBase(docBase, "/localhost");
     }
 
     public void setDocBase(String docBase, String workspace) {
@@ -256,7 +258,7 @@ public class ServletContext implements javax.servlet.ServletContext {
         return httpDataFactoryMap.computeIfAbsent(charset, c -> {
             DefaultHttpDataFactory factory = new DefaultHttpDataFactory(fileSizeThreshold, c);
             factory.setDeleteOnExit(true);
-            factory.setBaseDir(resourceManager.getRealPath(DEFAULT_UPLOAD_DIR));
+            factory.setBaseDir(resourceManager.mkdirs(DEFAULT_UPLOAD_DIR).toString());
             return factory;
         });
     }

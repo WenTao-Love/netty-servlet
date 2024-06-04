@@ -1,6 +1,9 @@
 package com.github.netty.core;
 
-import com.github.netty.core.util.*;
+import com.github.netty.core.util.LoggerFactoryX;
+import com.github.netty.core.util.LoggerX;
+import com.github.netty.core.util.NamespaceUtil;
+import com.github.netty.core.util.ThreadFactoryX;
 import io.netty.bootstrap.ChannelFactory;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBufAllocator;
@@ -262,11 +265,10 @@ public abstract class AbstractNettyServer implements Runnable {
         if (cause != null) {
             PlatformDependent.throwException(cause);
         }
-        logger.info("{} start (port = {}, pid = {}, os = {}) ...",
+        logger.info("{} start (port = {}, os = {}) ...",
                 getName(),
                 getPort() + "",
-                HostUtil.getPid() + "",
-                HostUtil.getOsName());
+                System.getProperty("os.name"));
     }
 
     @Override
