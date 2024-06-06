@@ -175,6 +175,7 @@ public class ServletInputStreamWrapper extends javax.servlet.ServletInputStream 
                                     writeSize += w;
                                 }
                             }
+                            source.removeComponents(0, source.numComponents());
                         }
                     }
                     int w = outputChannel.write(byteBuf.nioBuffer());
