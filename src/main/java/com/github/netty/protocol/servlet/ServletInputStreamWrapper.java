@@ -53,7 +53,7 @@ public class ServletInputStreamWrapper extends javax.servlet.ServletInputStream 
     private final AtomicBoolean onAllDataReadFlag = new AtomicBoolean();
     private final AtomicBoolean onDataAvailableFlag = new AtomicBoolean();
     private final AtomicBoolean receivedContentLengthFileSizeThresholdFlag = new AtomicBoolean();
-    private final String identityName = NamespaceUtil.newIdName(getClass()) + "_";
+    private final String identityName = getClass().getSimpleName() + System.identityHashCode(this) + "_";
     private ServletHttpExchange httpExchange;
     private CompositeByteBuf source;
     private long fileUploadTimeoutMs;
